@@ -9,6 +9,8 @@ public class MM1 {
         double duration = Double.parseDouble(args[2]);
         int debug = Integer.parseInt(args[3]);
 
+
+
         // Create ech and run the simulation and print result
         Ech ech = new Ech(lambda, mu);
         ech.simulation(duration,debug);

@@ -1,9 +1,9 @@
 import java.util.LinkedList;
 
 public class Ech {
-
-    private double mu;
-    private double lambda;
+    private Graph graph;
+    private final double mu;
+    private final double lambda;
     private LinkedList<Evt> events = new LinkedList<Evt>();
 
     private static double lastDeparture = 0;
@@ -16,7 +16,6 @@ public class Ech {
         this.mu = mu;
         this.lambda = lambda;
         // Create the first event
-        //insert(new Evt(0, State.ARRIVED));
         events.addFirst(new Evt(0, State.ARRIVED));
     }
 
@@ -30,6 +29,8 @@ public class Ech {
     }
 
     public void simulation(double duration,int debug){
+        //Create a graph object to draw graph
+        graph = new Graph("example.txt");
         // Create the stat for the simulation
         stat = new Stats(lambda, mu, duration);
         //On tourne dans la simulation jusqu'à ce que la liste de l'échéancier soit vide
@@ -69,8 +70,9 @@ public class Ech {
             }
         }
         else {
-            //
-            stat.addTotalLengthOfStay(currentEvent.getTimeDeparture() - currentEvent.getTimeArrival());
+            double lengthOfStay = currentEvent.getTimeDeparture() - currentEvent.getTimeArrival();
+            graph.writeData(lengthOfStay, timeArrival);
+            stat.addTotalLengthOfStay(lengthOfStay);
             // if we are a departure we update lastDeparture
             if(debug == 1){
                 System.out.println("Date="+currentEvent.getTimeDeparture()+"\t Départ   client#"
@@ -78,9 +80,6 @@ public class Ech {
             }
         }
     }
-
-
-
 
     public void printEvents(){
         int index = 0;
