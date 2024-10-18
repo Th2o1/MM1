@@ -1,5 +1,5 @@
 public class Evt {
-    private double timeArrival;
+    private final double timeArrival;
     private double timeDeparture;
 
     private int id = 0;

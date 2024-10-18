@@ -21,6 +21,7 @@ public class Stats {
     private int nbClient = 1;
     private double ClientWithoutWaiting;
     private double ClientWithWaiting;
+    private double totalLengthOfStay;
 
     public Stats(double lambda, double mu, double duration) {
         this.mu = mu;
@@ -43,6 +44,9 @@ public class Stats {
         // calculate % of client that w8 vs dont by divide them by the total nb of client
         double proportionNoWaiting = ClientWithoutWaiting / nbClient;
         double proportionWaiting = ClientWithWaiting / nbClient;
+        double debit = nbClient / duration;
+        double meanNumberOfClientWaiting = ClientWithWaiting / duration;
+        double averageLengthOfStay = totalLengthOfStay / nbClient;
         // Big print
         return  "--------------------\n" +
                 "RESULTATS THEORIQUES\n" +
@@ -61,9 +65,9 @@ public class Stats {
                 "Nombre total de clients = "+ nbClient +"\n" +
                 "Proportion clients sans attente = "+ proportionNoWaiting  +"\n" +
                 "Proportion clients avec attente ="+ proportionWaiting +"\n" +
-                "Debit = 5.003\n" +
-                "Nb moyen de clients dans systeme = 3.98552146993969\n" +
-                "Temps moyen de sejour = 0.7966263181970213";
+                "Debit = "+ debit +"\n" +
+                "Nb moyen de clients dans systeme ="+ meanNumberOfClientWaiting+"\n" +
+                "Temps moyen de sejour = "+ averageLengthOfStay +"\n";
 
     }
     // Adding client for later stat
@@ -77,5 +81,9 @@ public class Stats {
     }
     public void addClientWithWaiting() {
         ClientWithWaiting++;
+    }
+
+    public void addTotalLengthOfStay(double lengthOfStay) {
+        totalLengthOfStay += lengthOfStay;
     }
 }

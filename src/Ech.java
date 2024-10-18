@@ -40,16 +40,17 @@ public class Ech {
     }
 
     public void handleEvent(double duration,int debug){
-        Evt currentEvent = events.getFirst();
+        // We pop the fist event in list (closest in time)
+        Evt currentEvent = events.pop();
         double timeArrival = currentEvent.getTimeArrival();
         if(currentEvent.getState() == State.ARRIVED) {
-            if(timeArrival > lastDeparture) { //if we arrive after the last departure we use our arrival time (no w8)
+            if(timeArrival >= lastDeparture) { //if we arrive after the last departure we use our arrival time (no w8)
                 // the last departure became the time of departure of the current client
                 lastDeparture = Utils.duration(mu,timeArrival);
                 currentEvent.setTimeDeparture(lastDeparture);
                 stat.addClientWithoutWaiting(); // This client does not w8 so we add him to the stat
             }
-            else { // if there is someone before us (LastDeparture > time) arrival we have to w8 until they finish
+            else { // if there is someone before us (LastDeparture > timeArrival) arrival we have to w8 until they finish
                 // the last departure became the time of departure of the current client
                 lastDeparture = Utils.duration(mu,lastDeparture);
                 currentEvent.setTimeDeparture(lastDeparture);
@@ -68,13 +69,13 @@ public class Ech {
             }
         }
         else {
+            //
+            stat.addTotalLengthOfStay(currentEvent.getTimeDeparture() - currentEvent.getTimeArrival());
             // if we are a departure we update lastDeparture
             if(debug == 1){
                 System.out.println("Date="+currentEvent.getTimeDeparture()+"\t Départ   client#"
                         +currentEvent.getId()+ "\t arrive a t="+currentEvent.getTimeArrival());
             }
-            // remove the evt that leave
-            events.removeFirst();
         }
     }
 
@@ -84,7 +85,6 @@ public class Ech {
     public void printEvents(){
         int index = 0;
         while (index < events.size()) {
-
             System.out.println("["+index);
             System.out.println(events.get(index)+"]");
             index++;
