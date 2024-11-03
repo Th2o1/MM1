@@ -18,20 +18,23 @@ public class MM1 {
             graph = Integer.parseInt(args[5]);
         }
         // Data to make graph
-        ArrayList<ArrayList<double[]>> allSimulationsData = new ArrayList<>();
+        ArrayList<ArrayList<double[]>> allSimulationsStaysTimes = new ArrayList<>();
+        ArrayList<ArrayList<double[]>> allSimulationsNbClientInQueue = new ArrayList<>();
         ArrayList<double[]> simulationData = new ArrayList<>();
         // Create ech and run the simulation and print result
         for(int i=0; i<nbOfSimulations; i++) {
-             Ech ech = new Ech(lambda, mu);
-             Stats stat = new Stats(lambda, mu, duration);
-             ech.simulation(duration, debug, stat);
-             allSimulationsData.add(stat.getDataStayTime());
+            Ech ech = new Ech(lambda, mu);Stats stat = new Stats(lambda, mu, duration);
+            ech.simulation(duration, debug, stat);
+            allSimulationsStaysTimes.add(stat.getDataStayTime());
+            allSimulationsNbClientInQueue.add(stat.getDataNbClientInQueue());
         }
         //Create graph if ask
         if(graph > 0){
             Graph graphAverageStayTime = new Graph("averageStayTime.txt");
+            Graph graphNbClientInQueue = new Graph("nbClientInQueue.txt");
 
-            graphAverageStayTime.makeGraph(allSimulationsData, nbOfSimulations);
+            graphAverageStayTime.makeGraph(allSimulationsStaysTimes, nbOfSimulations);
+            graphNbClientInQueue.makeGraph(allSimulationsNbClientInQueue, nbOfSimulations);
         }
 
     }

@@ -22,6 +22,7 @@ public class Stats {
 
     //Data for graph
     private ArrayList<double[]> dataStayTime = new ArrayList<double[]>();
+    private ArrayList<double[]> dataNbClientInQueue = new ArrayList<double[]>();
 
     public Stats(double lambda, double mu, double duration) {
         this.mu = mu;
@@ -94,7 +95,9 @@ public class Stats {
     public void addDataStayTime(double currentTime) {
         this.dataStayTime.add(new double[]{currentTime,totalLengthOfStay / nbClient});
     }
-
+    public void addDataNbClientInQueue(double currentTime) {
+        this.dataNbClientInQueue.add(new double[]{currentTime,nbCurrentClient});
+    }
     // Getter
     public int getNbClient() {
         return nbClient;
@@ -107,5 +110,8 @@ public class Stats {
     }
     public ArrayList<double[]> getDataStayTime() {
         return dataStayTime;
+    }
+    public ArrayList<double[]> getDataNbClientInQueue() {
+        return dataNbClientInQueue;
     }
 }

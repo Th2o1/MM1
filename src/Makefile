@@ -5,7 +5,7 @@ SRC_DIR = ../src
 OUT_DIR = ../out
 GRAPH_DIR = ../graph
 DATA_DIR = ../data
-PLOT_SCRIPT = ../graph/averageStayTimePlot.gnuplot
+PLOT_SCRIPT = ../graph/*.gnuplot
 OUTPUT_IMAGE = ../graph/graph.png
 MAIN_CLASS = MM1
 
