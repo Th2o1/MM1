@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Ech {
@@ -19,11 +20,20 @@ public class Ech {
     }
 
     public void insert(Evt event) {
+        Iterator<Evt> iterator = events.iterator();
         int index = 0;
-        // find our place via our time of arrival or departure (depends on our state)
-        while (index < events.size() && events.get(index).compareTo(event) <= 0) {
+
+        // search in the linked list
+        while (iterator.hasNext()) {
+            Evt currentEvent = iterator.next();
+            // compare with current
+            if (currentEvent.compareTo(event) > 0) {
+                break; // we have found the index
+            }
             index++;
         }
+
+        // add event
         events.add(index, event);
     }
 
