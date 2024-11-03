@@ -9,7 +9,7 @@ public class Ech {
 
     private double lastDeparture = 0;
 
-    //Init of stat, object that compute theorical and simulation result
+    //object that compute theorical and simulation result
     private Stats stat;
 
 
@@ -27,9 +27,9 @@ public class Ech {
         events.add(index, event);
     }
 
-    public ArrayList<double[]> simulation(double duration, int debug){
+    public void simulation(double duration, int debug, Stats stat) {
         // Create the stat for the simulation
-        stat = new Stats(lambda, mu, duration);
+        this.stat = stat;
 
         // Create the first event
         events.addFirst(new Evt(0, State.ARRIVED));
@@ -39,7 +39,6 @@ public class Ech {
             handleEvent(duration,debug);
         }
         System.out.println(stat);
-        return stat.getDataStayTime();
     }
 
     public void handleEvent(double duration,int debug){

@@ -23,10 +23,9 @@ public class MM1 {
         // Create ech and run the simulation and print result
         for(int i=0; i<nbOfSimulations; i++) {
              Ech ech = new Ech(lambda, mu);
-             simulationData = ech.simulation(duration, debug);
-             System.out.println("-------------------");
-             System.out.println(Arrays.toString(simulationData.getFirst()));
-             allSimulationsData.add(simulationData);
+             Stats stat = new Stats(lambda, mu, duration);
+             ech.simulation(duration, debug, stat);
+             allSimulationsData.add(stat.getDataStayTime());
         }
         //Create graph if ask
         if(graph > 0){
