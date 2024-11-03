@@ -58,6 +58,7 @@ public class Ech {
                 currentEvent.setTimeDeparture(lastDeparture);
                 stat.addClientWithWaiting(); // cause timeArrival < lastDeparture they have to w8
             }
+            stat.addDataNbClientInQueue(timeArrival);
             if(debug == 1){
                 System.out.println("Date="+currentEvent.getTimeArrival()+"\t Arrivé   client#"
                         +currentEvent.getId());
@@ -74,7 +75,7 @@ public class Ech {
             double lengthOfStay = currentEvent.getTimeDeparture() - currentEvent.getTimeArrival();
             stat.addTotalLengthOfStay(lengthOfStay); // use to calc mean of length of stay
             stat.addDataStayTime(timeArrival); // use length of stay and current time to fill list use to make a graph
-            stat.addDataNbClientInQueue(timeArrival);
+
             stat.subtractClient(); // Sub to current number of client
             //graph.writeData(stat.getCurrentAverageLengthOfStay(), timeArrival);
             if(debug == 1){

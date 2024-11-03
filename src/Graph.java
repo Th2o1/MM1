@@ -29,11 +29,8 @@ public class Graph {
         // discretisation of the data
         int intervalSize = 1; // inter for discretisation
         Map<Integer, ArrayList<Double>> aggregatedData = aggregateData(rawData, intervalSize);
-//        System.out.println("-----------------------------------");
-//        System.out.println(aggregatedData);
         // Calc mean and confidence interval
         ArrayList<double[]> results = calculateMeanAndConfidence(aggregatedData, nbOfSimulations, intervalSize);
-
         // Write the data in a .txt for gnuplot
         writeData(results);
     }

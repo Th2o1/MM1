@@ -9,7 +9,7 @@ set output "../graph/nbClientInQueueWithConfidence.png"
 # Titres et labels
 set title "Nombre de client dans la file"
 set xlabel "Temps"
-set ylabel "Durée de séjour moyenne"
+set ylabel "Nombre de client dans la file"
 
 # Style de la bande de l'intervalle de confiance
 set style fill transparent solid 0.2 noborder
