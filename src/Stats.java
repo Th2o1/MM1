@@ -1,12 +1,8 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Stats {
-    //lambda<mu : file stable
-    //ro (lambda/mu) = 0.8333333333333334
-    //nombre de clients attendus (lambda x duree) = 5000.0
-    //Prob de service sans attente (1 - ro) = 0.16666666666666663
-    //Prob file occupee (ro) = 0.8333333333333334
-    //Debit (lambda) = 5.0
-    //Esp nb clients (ro/1-ro) = 5.000000000000002
-    //Temps moyen de sejour (1/mu(1-ro)) = 1.0000000000000002
+
     //Theorical data
     private final double mu;
     private final double lambda;
@@ -22,6 +18,10 @@ public class Stats {
     private double ClientWithoutWaiting;
     private double ClientWithWaiting;
     private double totalLengthOfStay;
+    private int nbCurrentClient= 1;
+
+    //Data for graph
+    private ArrayList<double[]> dataStayTime = new ArrayList<double[]>();
 
     public Stats(double lambda, double mu, double duration) {
         this.mu = mu;
@@ -36,7 +36,6 @@ public class Stats {
         this.espNbClient = ro/(1-ro);
         this.AverageLengthStay = 1/(mu*(1-ro));
         this.QueueStability = lambda<mu ? "file stable" : "file instable";
-
     }
 
     @Override
@@ -70,9 +69,15 @@ public class Stats {
                 "Temps moyen de sejour = "+ averageLengthOfStay +"\n";
 
     }
-    // Adding client for later stat
+    // Adding client for 1. total number of client
+    //                   2. current nb of client
     public void addClient() {
         nbClient++;
+        nbCurrentClient++;
+    }
+
+    public void subtractClient() {
+        nbCurrentClient--;
     }
 
     // Adding client that dont have to w8
@@ -85,5 +90,22 @@ public class Stats {
 
     public void addTotalLengthOfStay(double lengthOfStay) {
         totalLengthOfStay += lengthOfStay;
+    }
+    public void addDataStayTime(double currentTime) {
+        this.dataStayTime.add(new double[]{currentTime,totalLengthOfStay / nbClient});
+    }
+
+    // Getter
+    public int getNbClient() {
+        return nbClient;
+    }
+    public double getTotalLengthOfStay() {
+        return totalLengthOfStay;
+    }
+    public double getCurrentAverageLengthOfStay() {
+        return totalLengthOfStay/nbClient;
+    }
+    public ArrayList<double[]> getDataStayTime() {
+        return dataStayTime;
     }
 }

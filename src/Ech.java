@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Ech {
@@ -6,7 +7,7 @@ public class Ech {
     private final double lambda;
     private LinkedList<Evt> events = new LinkedList<Evt>();
 
-    private static double lastDeparture = 0;
+    private double lastDeparture = 0;
 
     //Init of stat, object that compute theorical and simulation result
     private Stats stat;
@@ -15,8 +16,6 @@ public class Ech {
     public Ech(double lambda,double mu) {
         this.mu = mu;
         this.lambda = lambda;
-        // Create the first event
-        events.addFirst(new Evt(0, State.ARRIVED));
     }
 
     public void insert(Evt event) {
@@ -28,16 +27,19 @@ public class Ech {
         events.add(index, event);
     }
 
-    public void simulation(double duration,int debug){
-        //Create a graph object to draw graph
-        graph = new Graph("example.txt");
+    public ArrayList<double[]> simulation(double duration, int debug){
         // Create the stat for the simulation
         stat = new Stats(lambda, mu, duration);
+
+        // Create the first event
+        events.addFirst(new Evt(0, State.ARRIVED));
+
         //On tourne dans la simulation jusqu'à ce que la liste de l'échéancier soit vide
         while (!events.isEmpty()) {
             handleEvent(duration,debug);
         }
         System.out.println(stat);
+        return stat.getDataStayTime();
     }
 
     public void handleEvent(double duration,int debug){
@@ -71,9 +73,10 @@ public class Ech {
         }
         else {
             double lengthOfStay = currentEvent.getTimeDeparture() - currentEvent.getTimeArrival();
-            graph.writeData(lengthOfStay, timeArrival);
-            stat.addTotalLengthOfStay(lengthOfStay);
-            // if we are a departure we update lastDeparture
+            stat.addTotalLengthOfStay(lengthOfStay); // use to calc mean of length of stay
+            stat.addDataStayTime(timeArrival); // use length of stay and current time to fill list use to make a graph
+            stat.subtractClient(); // Sub to current number of client
+            //graph.writeData(stat.getCurrentAverageLengthOfStay(), timeArrival);
             if(debug == 1){
                 System.out.println("Date="+currentEvent.getTimeDeparture()+"\t Départ   client#"
                         +currentEvent.getId()+ "\t arrive a t="+currentEvent.getTimeArrival());
